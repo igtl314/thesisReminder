@@ -1,12 +1,14 @@
 
 import type { Presentation } from "./types";
-const mailjet = require("node-mailjet").connect(
-    process.env.API_KEY,
-    process.env.SECRET_KEY
-);
+import { markAsNotified } from "./database";
+import Mailjet from 'node-mailjet';
 
 
 export async function sendEmail(thesisList: Array<Presentation>) {
+    const mailjet = new Mailjet({
+        apiKey: process.env.API_KEY,
+        apiSecret: process.env.SECRET_KEY
+    });
     const recipientEmail = "marcus.doberl@gmail.com"; // Change to your email
     const subject = "Upcoming Thesis Presentations";
 
@@ -50,7 +52,12 @@ export async function sendEmail(thesisList: Array<Presentation>) {
 
         const result = await request;
         console.log("Email sent successfully:", result.body);
+        markAsNotified();
     } catch (err) {
-        console.error("Error sending email:", err.statusCode, err.message);
+        console.error("Error sending email:", err);
+        fetch('https://ntfy.sh/mdo_debug', {
+            method: 'POST', // PUT works too
+            body: 'Failed to send email in Thesis Tracker',
+        })
     }
 }

@@ -2,13 +2,10 @@ import Database from "bun:sqlite";
 import type { Presentation } from "./types";
 
 
-const db = new Database("thesis.db", { create: true });
-
-
-
-db.query(
-  `
-  CREATE TABLE IF NOT EXISTS presentations (
+export function initDatabase() {
+  const db = new Database("thesis.db", { create: true });
+  db.query(
+    `CREATE TABLE IF NOT EXISTS presentations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT,
     date TEXT,
@@ -18,15 +15,15 @@ db.query(
     opponents TEXT,
     level TEXT,
     notified INTEGER DEFAULT 0
-  )
-`
-).run();
-db.close();
+  )`
+  ).run();
+  db.close();
+}
 
 export function savePresentations(presentations: Array<Presentation>) {
   const db = new Database("thesis.db");
   const insert = db.prepare(
-    "INSERT INTO presentations (title, date, presenter) VALUES (?, ?, ?)"
+    "INSERT INTO presentations (title, date, time, location, authors, opponents, level) VALUES (?, ?, ?, ?, ?, ?, ?)"
   );
 
   for (const p of presentations) {
@@ -38,13 +35,13 @@ export function savePresentations(presentations: Array<Presentation>) {
   db.close();
 }
 
-export function getUnnotifiedPresentations() {
+export function getUnnotifiedPresentations(): Array<Presentation> {
   const db = new Database("thesis.db");
   const result = db
     .query("SELECT * FROM presentations WHERE notified = 0")
     .all();
   db.close();
-  return result;
+  return result as Array<Presentation>;
 }
 
 export function markAsNotified() {

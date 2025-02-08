@@ -2,7 +2,8 @@
   "name": "thesisemailer",
   "module": "index.ts",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/node": "^22.13.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
