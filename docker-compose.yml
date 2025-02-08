@@ -1,0 +1,7 @@
+services:
+  thesis-app:
+    build: .
+    container_name: thesis-container
+    volumes:
+      - ./thesis.db:/app/thesis.db # Bind-mount the database file
+    restart: unless-stopped
