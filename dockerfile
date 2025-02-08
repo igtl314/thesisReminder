@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install
 
-COPY . ./
+COPY . /app
 
 RUN bun install
 CMD ["bun", "run", "index.ts"]
