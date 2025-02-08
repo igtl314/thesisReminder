@@ -12,8 +12,11 @@ cron.schedule("0 * * * *", async () => {
 });
 
 // Send emails every two days at 8 AM
-cron.schedule("0 8 */2 * *", async () => {
+cron.schedule("0 8 * * *", async () => {
     const presentations = getUnnotifiedPresentations();
+    if (presentations.length === 0) {
+        console.log("No new presentations to notify.");
+    }
     await sendEmail(presentations);
     console.log("Sent email notification.");
 
