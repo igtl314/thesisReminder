@@ -5,5 +5,8 @@ export type Presentation = {
     location: string;
     authors: string;
     opponents: string;
+    supervisor: string;
+    examinor: string;
     level: string;
+    calenderLink?: string;
 };

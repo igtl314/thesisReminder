@@ -1,6 +1,7 @@
 import { fetch } from "bun";
 import * as cheerio from "cheerio";
 import type { Presentation } from "./types";
+import generateGoogleCalendarLink from "./calanderCreator";
 
 const URL = "https://www.ida.liu.se/wexupp/public_presentations?layout=2";  // Replace with actual URL
 
@@ -26,11 +27,15 @@ export async function getPresentations() {
         const authorLine = text.find(line => line.startsWith("Författare:")) || "";
         const authors = authorLine.replace("Författare:", "").trim();
         const opponentIndex = text.findIndex(line => line.includes("Opponent"));
-
         const opponents = opponentIndex !== -1 ? text[opponentIndex + 1] || "" : "";
+        const supervisorIndex = text.findIndex(line => line.includes("Handledare"));
+        const supervisor = opponentIndex !== -1 ? text[supervisorIndex + 1] || "" : "";
+        const examintorIndex = text.findIndex(line => line.includes("Examinator"));
+        const examinor = examintorIndex !== -1 ? text[examintorIndex + 1] || "" : "";
         const level = text.find(line => line.startsWith("Nivå:"))?.replace("Nivå:", "").trim() || "";
 
-        const presentation: Presentation = { date, time, location, title, authors, opponents, level };
+        const presentation: Presentation = { date, time, location, title, authors, opponents, supervisor, examinor, level };
+        presentation.calenderLink = generateGoogleCalendarLink(presentation);
 
         presentations.push(presentation);
     });

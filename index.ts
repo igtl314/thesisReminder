@@ -17,10 +17,16 @@ cron.schedule("0 8 * * *", async () => {
     if (presentations.length === 0) {
         console.log("No new presentations to notify.");
     }
-    await sendEmail(presentations);
+    else {
+        const response = await sendEmail(presentations)
+        console.log(response);
+    }
     console.log("Sent email notification.");
 
 });
 
 console.log("Thesis Tracker running...");
+
+
+
 

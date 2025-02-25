@@ -9,7 +9,7 @@ export async function sendEmail(thesisList: Array<Presentation>) {
         apiKey: process.env.API_KEY,
         apiSecret: process.env.SECRET_KEY
     });
-    const recipientEmail = "marcus.doberl@gmail.com"; // Change to your email
+    const recipientEmail = "rlk6m47uo@lists.mailjet.com"; // Change to your email
     const subject = "Upcoming Thesis Presentations";
 
     // Format thesis presentations as an HTML list
@@ -19,7 +19,10 @@ export async function sendEmail(thesisList: Array<Presentation>) {
       Location: ${thesis.location}<br>
       Authors: ${thesis.authors}<br>
       Opponents: ${thesis.opponents}<br>
-      Level: ${thesis.level}
+      Level: ${thesis.level}<br>
+      Supervisor: ${thesis.supervisor}<br>
+        Examinor: ${thesis.examinor}<br>
+      <a href="${thesis.calenderLink}">Add to calendar</a>
     </li>
   `).join("");
 
