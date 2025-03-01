@@ -2,7 +2,7 @@ import type { Presentation } from "./types";
 
 export default function generateGoogleCalendarLink(thesis: Presentation): string {
     const startTime = new Date(`${thesis.date}T${thesis.time}`);
-    const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Add 30 minutes
+    const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Add 60 minutes
 
     const startUTC = startTime.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";
     const endUTC = endTime.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z";

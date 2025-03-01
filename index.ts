@@ -11,7 +11,7 @@ cron.schedule("0 * * * *", async () => {
     console.log("Updated presentations.");
 });
 
-// Send emails every two days at 8 AM
+// Send emails every day at 8 AM
 cron.schedule("0 8 * * *", async () => {
     const presentations = getUnnotifiedPresentations();
     if (presentations.length === 0) {
@@ -26,6 +26,13 @@ cron.schedule("0 8 * * *", async () => {
 });
 
 console.log("Thesis Tracker running...");
+
+
+// to run localy without sending email
+// initDatabase();
+// let presentations = await getPresentations();
+// console.log(presentations);
+
 
 
 
